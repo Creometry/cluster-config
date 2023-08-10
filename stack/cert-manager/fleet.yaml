@@ -1,0 +1,6 @@
+defaultNamespace: cert-manager
+helm:
+  releaseName: cert-manager
+  chart: rancher-monitoring-crd
+  repo: https://charts.jetstack.io
+  version: v1.12.3
