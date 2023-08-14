@@ -1996,7 +1996,7 @@ helm:
         #   argocd.argoproj.io/hook: PreSync
         #   argocd.argoproj.io/hook-delete-policy: HookSucceeded
         patch:
-          enabled: false
+          enabled: true
           image:
             registry: registry.k8s.io
             repository: ingress-nginx/kube-webhook-certgen
