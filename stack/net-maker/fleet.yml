@@ -219,6 +219,7 @@ helm:
 # -- number of netmaker server replicas to create
     replicas: 1
     baseDomain: nm.creometry.com
+    RWXStorageClassName: standard-rwx
     image:
       # -- The image repo to pull Netmaker image from
       repository: gravitl/netmaker
@@ -262,10 +263,9 @@ helm:
 
     dns:
       # -- whether or not to deploy coredns
-      enabled: false
+      enabled: true
       storageSize: 128Mi
-      RWX:
-        storageClassName: standard-rwx
+  
 
     setIpForwarding:
       enabled: true
