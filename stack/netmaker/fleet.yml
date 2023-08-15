@@ -263,9 +263,9 @@ helm:
 
     dns:
       # -- whether or not to deploy coredns
-      enabled: true
+      enabled: false
       storageSize: 128Mi
-  
+      clusterIP: 10.152.11.99
 
     setIpForwarding:
       enabled: true
