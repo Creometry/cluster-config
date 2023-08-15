@@ -226,7 +226,7 @@ helm:
       # -- Pull Policy for images
       pullPolicy: IfNotPresent
       # -- Override the image tag to pull
-      # tag: "latest"
+      tag: "0.17.1"
 
     # -- override the name for netmaker objects
     nameOverride: ""
@@ -259,6 +259,8 @@ helm:
       singlenode: false
       storageSize: 128Mi
       password: 3yyerWGdds43yegGR
+       
+
 
 
     dns:
@@ -276,7 +278,7 @@ helm:
       # -- port for API service
       restPort: 8081
       # -- port for MQTT service
-      mqPort: 443
+      mqPort: 8883
       # -- port for UI service
       uiPort: 80
 
