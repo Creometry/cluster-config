@@ -278,7 +278,7 @@ helm:
       # -- port for API service
       restPort: 8081
       # -- port for MQTT service
-      mqPort: 31443
+      mqPort: 8883
       # -- port for UI service
       uiPort: 80
 
