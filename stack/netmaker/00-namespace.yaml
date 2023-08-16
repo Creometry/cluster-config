@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: netmaker
+  labels:
+    kubernetes.io/metadata.name: netmaker
+    name: netmaker
+  
