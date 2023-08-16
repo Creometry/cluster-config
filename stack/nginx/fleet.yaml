@@ -232,10 +232,10 @@ helm:
 
       # -- The update strategy to apply to the Deployment or DaemonSet
       ##
-      updateStrategy: {}
-      #  rollingUpdate:
-      #    maxUnavailable: 1
-      #  type: RollingUpdate
+      updateStrategy: 
+       rollingUpdate:
+         maxUnavailable: 1
+       type: RollingUpdate
 
       # -- `minReadySeconds` to avoid killing pods before we are ready
       ##
@@ -316,17 +316,17 @@ helm:
       ## Liveness and readiness probe values
       ## Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
       ##
-      ## startupProbe:
-      ##   httpGet:
-      ##     # should match container.healthCheckPath
-      ##     path: "/healthz"
-      ##     port: 10254
-      ##     scheme: HTTP
-      ##   initialDelaySeconds: 5
-      ##   periodSeconds: 5
-      ##   timeoutSeconds: 2
-      ##   successThreshold: 1
-      ##   failureThreshold: 5
+      startupProbe:
+        httpGet:
+          # should match container.healthCheckPath
+          path: "/healthz"
+          port: 10254
+          scheme: HTTP
+        initialDelaySeconds: 5
+        periodSeconds: 5
+        timeoutSeconds: 2
+        successThreshold: 1
+        failureThreshold: 5
       livenessProbe:
         httpGet:
           # should match container.healthCheckPath
@@ -359,12 +359,12 @@ helm:
       # -- Annotations to be added to controller pods
       ##
       podAnnotations: {}
-      replicaCount: 1
+      replicaCount: 2
       # -- Minimum available pods set in PodDisruptionBudget.
       # Define either 'minAvailable' or 'maxUnavailable', never both.
       minAvailable: 1
       # -- Maximum unavalaile pods set in PodDisruptionBudget. If set, 'minAvailable' is ignored.
-      # maxUnavailable: 1
+      maxUnavailable: 1
 
       ## Define requests resources to avoid probe issues due to CPU utilization in busy nodes
       ## ref: https://github.com/kubernetes/ingress-nginx/issues/4735#issuecomment-551204903
@@ -379,10 +379,10 @@ helm:
           memory: 90Mi
       # Mutually exclusive with keda autoscaling
       autoscaling:
-        enabled: false
+        enabled: True
         annotations: {}
         minReplicas: 1
-        maxReplicas: 11
+        maxReplicas: 3
         targetCPUUtilizationPercentage: 50
         targetMemoryUtilizationPercentage: 50
         behavior: {}
@@ -398,16 +398,16 @@ helm:
         #   - type: Pods
         #     value: 2
         #     periodSeconds: 60
-      autoscalingTemplate: []
+      autoscalingTemplate: 
       # Custom or additional autoscaling metrics
       # ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-custom-metrics
-      # - type: Pods
-      #   pods:
-      #     metric:
-      #       name: nginx_ingress_controller_nginx_process_requests_total
-      #     target:
-      #       type: AverageValue
-      #       averageValue: 10000m
+      - type: Pods
+        pods:
+          metric:
+            name: nginx_ingress_controller_nginx_process_requests_total
+          target:
+            type: AverageValue
+            averageValue: 10000m
 
       # Mutually exclusive with hpa autoscaling
       keda:
@@ -647,19 +647,19 @@ helm:
         createSecretJob:
           securityContext:
             allowPrivilegeEscalation: false
-          resources: {}
-          # limits:
-          #   cpu: 10m
-          #   memory: 20Mi
-          # requests:
-          #   cpu: 10m
-          #   memory: 20Mi
+          resources: 
+            limits:
+              cpu: 10m
+              memory: 20Mi
+            requests:
+              cpu: 1m
+              memory: 2Mi
         patchWebhookJob:
           securityContext:
             allowPrivilegeEscalation: false
           resources: {}
         patch:
-          enabled: true
+          enabled: false
           image:
             registry: registry.k8s.io
             image: ingress-nginx/kube-webhook-certgen
@@ -684,7 +684,7 @@ helm:
             fsGroup: 2000
         # Use certmanager to generate webhook certs
         certManager:
-          enabled: false
+          enabled: true
           # self-signed root certificate
           rootCert:
             # default to be 5y
@@ -692,18 +692,18 @@ helm:
           admissionCert:
             # default to be 1y
             duration: ""
-            # issuerRef:
-            #   name: "issuer"
-            #   kind: "ClusterIssuer"
+            issuerRef:
+              name: "letsencrypt-prod"
+              kind: "ClusterIssuer"
       metrics:
         port: 10254
         portName: metrics
         # if this port is changed, change healthz-port: in extraArgs: accordingly
-        enabled: false
+        enabled: true
         service:
-          annotations: {}
-          # prometheus.io/scrape: "true"
-          # prometheus.io/port: "10254"
+          annotations: 
+            prometheus.io/scrape: "true"
+            prometheus.io/port: "10254"
           # -- Labels to be added to the metrics service resource
           labels: {}
           # clusterIP: ""
@@ -719,11 +719,11 @@ helm:
           # externalTrafficPolicy: ""
           # nodePort: ""
         serviceMonitor:
-          enabled: false
+          enabled: true
           additionalLabels: {}
           ## The label to use to retrieve the job name from.
           ## jobLabel: "app.kubernetes.io/name"
-          namespace: ""
+          namespace: ingress-nginx
           namespaceSelector: {}
           ## Default: scrape .Release.Namespace only
           ## To scrape all, use the following:
@@ -735,43 +735,43 @@ helm:
           relabelings: []
           metricRelabelings: []
         prometheusRule:
-          enabled: false
+          enabled: true
           additionalLabels: {}
           # namespace: ""
-          rules: []
+          rules: 
           # # These are just examples rules, please adapt them to your needs
-          # - alert: NGINXConfigFailed
-          #   expr: count(nginx_ingress_controller_config_last_reload_successful == 0) > 0
-          #   for: 1s
-          #   labels:
-          #     severity: critical
-          #   annotations:
-          #     description: bad ingress config - nginx config test failed
-          #     summary: uninstall the latest ingress changes to allow config reloads to resume
-          # - alert: NGINXCertificateExpiry
-          #   expr: (avg(nginx_ingress_controller_ssl_expire_time_seconds) by (host) - time()) < 604800
-          #   for: 1s
-          #   labels:
-          #     severity: critical
-          #   annotations:
-          #     description: ssl certificate(s) will expire in less then a week
-          #     summary: renew expiring certificates to avoid downtime
-          # - alert: NGINXTooMany500s
-          #   expr: 100 * ( sum( nginx_ingress_controller_requests{status=~"5.+"} ) / sum(nginx_ingress_controller_requests) ) > 5
-          #   for: 1m
-          #   labels:
-          #     severity: warning
-          #   annotations:
-          #     description: Too many 5XXs
-          #     summary: More than 5% of all requests returned 5XX, this requires your attention
-          # - alert: NGINXTooMany400s
-          #   expr: 100 * ( sum( nginx_ingress_controller_requests{status=~"4.+"} ) / sum(nginx_ingress_controller_requests) ) > 5
-          #   for: 1m
-          #   labels:
-          #     severity: warning
-          #   annotations:
-          #     description: Too many 4XXs
-          #     summary: More than 5% of all requests returned 4XX, this requires your attention
+          - alert: NGINXConfigFailed
+            expr: count(nginx_ingress_controller_config_last_reload_successful == 0) > 0
+            for: 1s
+            labels:
+              severity: critical
+            annotations:
+              description: bad ingress config - nginx config test failed
+              summary: uninstall the latest ingress changes to allow config reloads to resume
+          - alert: NGINXCertificateExpiry
+            expr: (avg(nginx_ingress_controller_ssl_expire_time_seconds) by (host) - time()) < 604800
+            for: 1s
+            labels:
+              severity: critical
+            annotations:
+              description: ssl certificate(s) will expire in less then a week
+              summary: renew expiring certificates to avoid downtime
+          - alert: NGINXTooMany500s
+            expr: 100 * ( sum( nginx_ingress_controller_requests{status=~"5.+"} ) / sum(nginx_ingress_controller_requests) ) > 5
+            for: 1m
+            labels:
+              severity: warning
+            annotations:
+              description: Too many 5XXs
+              summary: More than 5% of all requests returned 5XX, this requires your attention
+          - alert: NGINXTooMany400s
+            expr: 100 * ( sum( nginx_ingress_controller_requests{status=~"4.+"} ) / sum(nginx_ingress_controller_requests) ) > 5
+            for: 1m
+            labels:
+              severity: warning
+            annotations:
+              description: Too many 4XXs
+              summary: More than 5% of all requests returned 4XX, this requires your attention
       # -- Improve connection draining when ingress controller pod is deleted using a lifecycle hook:
       # With this new hook, we increased the default terminationGracePeriodSeconds from 30 seconds
       # to 300, allowing the draining of connections up to five minutes.
