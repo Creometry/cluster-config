@@ -359,7 +359,7 @@ helm:
       # -- Annotations to be added to controller pods
       ##
       podAnnotations: {}
-      replicaCount: 2
+      replicaCount: 1
       # -- Minimum available pods set in PodDisruptionBudget.
       # Define either 'minAvailable' or 'maxUnavailable', never both.
       minAvailable: 1
@@ -659,7 +659,7 @@ helm:
             allowPrivilegeEscalation: false
           resources: {}
         patch:
-          enabled: false
+          enabled: true
           image:
             registry: registry.k8s.io
             image: ingress-nginx/kube-webhook-certgen
@@ -684,7 +684,7 @@ helm:
             fsGroup: 2000
         # Use certmanager to generate webhook certs
         certManager:
-          enabled: true
+          enabled: false
           # self-signed root certificate
           rootCert:
             # default to be 5y
