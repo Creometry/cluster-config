@@ -1,0 +1,5 @@
+01-sealed-postgres-secret.yaml
+fleet.yaml
+03-netmaker-server.yaml
+02-netmaker-mosquitto.yaml
+nm-api-master-key-secret.yaml

@@ -56,23 +56,25 @@ spec:
         - name: DISPLAY_KEYS
           value: "on"
         - name: DATABASE
-          value: netmaker
+          value: postgres
         - name: SQL_HOST
-          value: "netmaker-postgresql" 
+          value: "postgres-postgresql" 
         - name: SQL_PORT
           value: "5432"
         - name: SQL_DB
           value: "postgres"
         - name: SQL_USER
-          value: "netmaker-server"
+          value: "postgres"
         - name: SQL_PASS
           valueFrom:
             secretKeyRef:
-              name: postgres-pass
-              key: DB_PASS
-          #value: "DB_PASS"
+              name: postgres-postgresql
+              key: postgres-password
         - name: MASTER_KEY
-          value: REPLACE_MASTER_KEY
+          valueFrom:
+            secretKeyRef:
+              name: nm-master-key
+              key: MASTER_KEY
         - name: CORS_ALLOWED_ORIGIN
           value: '*'
         - name: SERVER_BROKER_ENDPOINT
