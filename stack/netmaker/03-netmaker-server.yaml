@@ -4,6 +4,7 @@ metadata:
   labels:
     app: netmaker
   name: netmaker
+  namespace: netmaker
 spec:
   replicas: 1
   serviceName: netmaker-headless
