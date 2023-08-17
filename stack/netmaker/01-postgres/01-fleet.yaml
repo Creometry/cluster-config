@@ -83,7 +83,7 @@ helm:
       imagePullSecrets: []
       storageClass: ""
       postgresql:
-        username: "postgres"
+        username: "netmaker-server"
         password: ""
         database: "netmaker"
         repmgrUsername: ""
@@ -188,14 +188,12 @@ helm:
       ## @param postgresql.updateStrategy.type Postgresql statefulset strategy type
       ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
       ## e.g:
-      ## updateStrategy:
-      ##  type: RollingUpdate
-      ##  rollingUpdate:
-      ##    maxSurge: 25%
-      ##    maxUnavailable: 25%
-      ##
       updateStrategy:
         type: RollingUpdate
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 25%
+    
       ## @param postgresql.containerPorts.postgresql PostgreSQL port
       ##
       containerPorts:
@@ -361,7 +359,10 @@ helm:
         ##    cpu: 250m
         ##    memory: 256Mi
         ##
-        requests: {}
+        requests: 
+          requests:
+            cpu: 1m
+            memory: 2Mi
       ## PostgreSQL container's liveness probe
       ## ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
       ## @param postgresql.livenessProbe.enabled Enable livenessProbe
@@ -425,20 +426,20 @@ helm:
       ## @param postgresql.pdb.maxUnavailable Maximum number / percentage of pods that may be made unavailable
       ##
       pdb:
-        create: false
+        create: true
         minAvailable: 1
-        maxUnavailable: ""
+        maxUnavailable: 1
       ## PostgreSQL configuration parameters
       ## @param postgresql.username PostgreSQL username
       ## @param postgresql.password PostgreSQL password
       ## @param postgresql.database PostgreSQL database
       ##
-      username: postgres
+      username: netmaker-server
       password: ""
-      database: ""
+      database: "netmaker"
       ## @param postgresql.existingSecret PostgreSQL password using existing secret
       ##
-      existingSecret: ""
+      existingSecret: "postgres-pass"
       ## @param postgresql.postgresPassword PostgreSQL password for the `postgres` user when `username` is not `postgres`
       ## ref: https://github.com/bitnami/containers/tree/main/bitnami/postgresql#creating-a-database-user-on-first-run (see note!)
       ##
@@ -504,10 +505,10 @@ helm:
         logHostname: true
         ## @param postgresql.audit.logConnections Add client log-in operations to the log file
         ##
-        logConnections: false
+        logConnections: true
         ## @param postgresql.audit.logDisconnections Add client log-outs operations to the log file
         ##
-        logDisconnections: false
+        logDisconnections: 
         ## @param postgresql.audit.pgAuditLog Add operations to log using the pgAudit extension
         ##
         pgAuditLog: ""
@@ -858,7 +859,9 @@ helm:
         ##    cpu: 250m
         ##    memory: 256Mi
         ##
-        requests: {}
+        requests: 
+          cpu: 1m
+          memory: 1Mi
       ## PostgreSQL container's liveness probe
       ## ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
       ## @param witness.livenessProbe.enabled Enable livenessProbe
@@ -1601,7 +1604,7 @@ helm:
       ## Bitnami PostgreSQL Prometheus exporter image
       ## @param metrics.enabled Enable PostgreSQL Prometheus exporter
       ##
-      enabled: false
+      enabled: true
       ## ref: https://hub.docker.com/r/bitnami/pgpool/tags/
       ## @param metrics.image.registry PostgreSQL Prometheus exporter image registry
       ## @param metrics.image.repository PostgreSQL Prometheus exporter image repository
@@ -1667,7 +1670,9 @@ helm:
         ##    cpu: 250m
         ##    memory: 256Mi
         ##
-        requests: {}
+        requests: 
+          cpu: 1m
+          memory: 1Mi
       ## @param metrics.containerPorts.http Prometheus metrics exporter port
       ##
       containerPorts:
@@ -1802,11 +1807,11 @@ helm:
       serviceMonitor:
         ## @param metrics.serviceMonitor.enabled if `true`, creates a Prometheus Operator ServiceMonitor (also requires `metrics.enabled` to be `true`)
         ##
-        enabled: false
+        enabled: true
         ## @param metrics.serviceMonitor.namespace Optional namespace which Prometheus is running in
         ## Fallback to the prometheus default unless specified
         ##
-        namespace: ""
+        namespace: netmaker
         ## @param metrics.serviceMonitor.interval How frequently to scrape metrics (use by default, falling back to Prometheus' default)
         ## e.g:
         ## interval: 10s
@@ -1944,7 +1949,7 @@ helm:
         - ReadWriteOnce
       ## @param persistence.size Persistent Volume Claim size
       ##
-      size: 8Gi
+      size: 20Gi
       ## @param persistence.annotations Persistent Volume Claim annotations
       ##
       annotations: {}
