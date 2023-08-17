@@ -1,0 +1,15 @@
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: nm-master-key
+  namespace: netmaker
+spec:
+  encryptedData:
+    MASTER_KEY: AgCK1M+Fc2uis400VVp6rO/kF4OrPjMpFReuvHY+zbtLhjudI4nUJYGF5S1Z/MNYQHDwbZbmX2IOXw0OLY5jZNp1iL0chczUK+AwGCJ6NBOfTyT0bS6OO+wJoDp7/D3x6yGvZikKL5GawrUzBpouvT/EEry4Qfojj3Ulpo7SFQh8zeaw2w4C7/W0C3La1alSXnhdP+WniK2zzZALHAoGKUvysyK49rbVkTSbgzHYkhXyX4mJAzeG1/Hzvipv/Bw+ufLha25StP9ziBibimvic2AjtZBwwEPK8YWu3lWlKe4F0b0Mx+2cBpGwjAQA8PfUtpDVN74Ck0mR1CP1Ua6n+q/MVOCg91vDG5ZOiS12l8YbA4Uptx8v2kLfuXrRzsS6pxBp7/OHsOTnZYpblUMbZkC7IUuusS4ePbhxpOpN8uOXU5cM3Nzef/81j/3cvx7NptZnsqzcyryFs/YDGLFbrafmKwIvgzDBq1SZyxA8eXQ9Liu9rH+1RDxlvXmFiVtDejDDD5loRVA0xBVI7a2Q87vRqwfwWw5Vmv3EQTwnLVzMscQeU5RKHGtiQFBSEWJitSY+LdIC4jC/7WTRZ1mKq/mqYRg2yZSUsXo0i0F8dIM/I+99YlOWKaGmMLt0z05Diy5abf2Ccx5dQmryK2VeHuty5OMK60QKFidjTAtbosyhRKwEke9eAms5lFHjMZuyuQZ7XKDVwp6aLGltSfJYsOqOwg==
+  template:
+    metadata:
+      creationTimestamp: null
+      name: nm-master-key
+      namespace: netmaker
+
