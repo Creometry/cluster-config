@@ -126,68 +126,68 @@ spec:
         persistentVolumeClaim:
           claimName: shared-certs-pvc
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  namespace: netmaker
-  labels:
-    name: 'netmaker-wireguard'
-spec:
-  externalTrafficPolicy: Local
-  type: NodePort
-  ports:
-  - port: 31821
-    nodePort: 31821
-    protocol: UDP
-    targetPort: 31821
-    name: wg-iface-31821
-  - port: 31822
-    nodePort: 31822
-    protocol: UDP
-    targetPort: 31822
-    name: wg-iface-31822
-  - port: 31823
-    nodePort: 31823
-    protocol: UDP
-    targetPort: 31823
-    name: wg-iface-31823
-  - port: 31824
-    nodePort: 31824
-    protocol: UDP
-    targetPort: 31824
-    name: wg-iface-31824
-  - port: 31825
-    nodePort: 31825
-    protocol: UDP
-    targetPort: 31825
-    name: wg-iface-31825
-  - port: 31826
-    nodePort: 31826
-    protocol: UDP
-    targetPort: 31826
-    name: wg-iface-31826
-  - port: 31827
-    nodePort: 31827
-    protocol: UDP
-    targetPort: 31827
-    name: wg-iface-31827
-  - port: 31828
-    nodePort: 31828
-    protocol: UDP
-    targetPort: 31828
-    name: wg-iface-31828
-  - port: 31829
-    nodePort: 31829
-    protocol: UDP
-    targetPort: 31829
-    name: wg-iface-31829
-  - port: 31830
-    nodePort: 31830
-    protocol: UDP
-    targetPort: 31830
-    name: wg-iface-31830
-  selector:
-    app: 'netmaker'
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   namespace: netmaker
+#   labels:
+#     name: 'netmaker-wireguard'
+# spec:
+#   externalTrafficPolicy: Local
+#   type: NodePort
+#   ports:
+#   - port: 31821
+#     nodePort: 31821
+#     protocol: UDP
+#     targetPort: 31821
+#     name: wg-iface-31821
+#   - port: 31822
+#     nodePort: 31822
+#     protocol: UDP
+#     targetPort: 31822
+#     name: wg-iface-31822
+#   - port: 31823
+#     nodePort: 31823
+#     protocol: UDP
+#     targetPort: 31823
+#     name: wg-iface-31823
+#   - port: 31824
+#     nodePort: 31824
+#     protocol: UDP
+#     targetPort: 31824
+#     name: wg-iface-31824
+#   - port: 31825
+#     nodePort: 31825
+#     protocol: UDP
+#     targetPort: 31825
+#     name: wg-iface-31825
+#   - port: 31826
+#     nodePort: 31826
+#     protocol: UDP
+#     targetPort: 31826
+#     name: wg-iface-31826
+#   - port: 31827
+#     nodePort: 31827
+#     protocol: UDP
+#     targetPort: 31827
+#     name: wg-iface-31827
+#   - port: 31828
+#     nodePort: 31828
+#     protocol: UDP
+#     targetPort: 31828
+#     name: wg-iface-31828
+#   - port: 31829
+#     nodePort: 31829
+#     protocol: UDP
+#     targetPort: 31829
+#     name: wg-iface-31829
+#   - port: 31830
+#     nodePort: 31830
+#     protocol: UDP
+#     targetPort: 31830
+#     name: wg-iface-31830
+#   selector:
+#     app: 'netmaker'
 ---
 apiVersion: v1
 kind: Service
